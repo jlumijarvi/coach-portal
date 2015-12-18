@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es3",
+        "noImplicitAny": false,
+        "outDir": "built",
+        "rootDir": ".",
+        "sourceMap": false
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "files": [
+        "src/app.ts",
+        "src/app/auth/secret.ts",
+        "src/app/auth/tokenManager.ts",
+        "src/app/auth/userManager.ts",
+        "src/app/db/index.ts",
+        "src/app/models/token.ts",
+        "src/app/models/user.ts",
+        "src/app/routes/api.ts",
+        "src/app/routes/index.ts",
+        "src/app/utils/404.ts",
+        "src/app/utils/errorHandler.ts",
+        "src/app/utils/jsonfileservice.ts"
+    ]
+}
