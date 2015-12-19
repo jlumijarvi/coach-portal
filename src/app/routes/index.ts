@@ -50,12 +50,12 @@ export function init() {
     router.post('/account/token', jwt(jwtOptions), token);
     router.post('/account/register', register);
 
-    router.get('/ping', function(req, res, next) {
+    router.get('/ping', (req, res, next) => {
         console.log(req.body);
         res.send('pong');
     });
 
-    router.get('/clearcookies', function(req, res, next) {
+    router.get('/clearcookies', (req, res, next) => {
         for (var prop in req.cookies) {
             console.log('clearing ' + prop + ': ' + req.cookies[prop]);
             res.clearCookie(prop, { path: '/' });
@@ -63,25 +63,38 @@ export function init() {
         res.send('cookies cleared');
     });
 
+    router.post('/checkuser', (req, res, next) => {
+        console.log(req.body);
+        userManager.findUser(req.body.username, (user) => {
+            res.send({ isAvailable: !user });
+        });
+    });
+
+    router.post('/checkpassword', (req, res, next) => {
+        userManager.checkPasswordStrength(req.body.password, (isValid, msgs) => {
+            res.send({ isValid: isValid, msg: msgs });
+        });
+    });
+
     function register(req: express.Request, res: express.Response): any {
-        var username = req.body['username'];
-        var password = req.body['password'];
-        var confirmPassword = req.body['confirm_password'];
+        var username: string = req.body['username'];
+        var password: string = req.body['password'];
+        var confirmPassword: string = req.body['confirm_password'];
 
         if (username == '' || password == '' || password != confirmPassword) {
-            return res.sendStatus(400);
+            return res.status(400).send('Password and confirm password did not match');
         }
-        
-        userManager.register(username, password, (err, user) => {
-            if (!user) {
-                return res.sendStatus(err);
+
+        userManager.register(username, password, (err, result) => {
+            if (err !== 200) {
+                return res.status(err).json(result);
             }
             res.sendStatus(200);
         });
     }
 
     function login(req: express.Request, res: express.Response): any {
-            
+
         var username = req.body['username'];
         var password = req.body['password'];
         var remember = 'true' === req.body['remember'];

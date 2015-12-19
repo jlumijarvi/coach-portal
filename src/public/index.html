@@ -1,6 +1,41 @@
 <!DOCTYPE html>
 <html>
-<form action="/process" method="POST">
-  <button type="submit">Submit</button>
-</form>	
+
+<head></head>
+
+<body>
+    <h2>Login</h2>
+    <form action="/account/login" method="POST">
+        <input type="text" name="username" placeholder="username">
+        <br>
+        <input type="password" name="password" placeholder="password">
+        <br>
+        <button type="submit">Submit</button>
+        <input name="_csrf" type="hidden">
+    </form>
+    <hr>
+    <h2>Register</h2>
+    <form action="/account/register" method="POST">
+        <input type="text" name="username" placeholder="username">
+        <br>
+        <input type="password" name="password" placeholder="password">
+        <br>
+        <input type="password" name="confirm_password" placeholder="password confirmation">
+        <br>
+        <button type="submit">Submit</button>
+        <input name="_csrf" type="hidden">
+    </form>
+    <script>
+        document.cookie.split(';').forEach(function(val) {
+            var propAndValue = val.split('=');
+            if (propAndValue[0].trim() === 'XSRF-TOKEN') {
+                var elems = document.getElementsByName('_csrf');
+                for (var i = 0; i < elems.length; i++) {
+                    elems[i].setAttribute('value', propAndValue[1]);
+                }
+            }
+        });
+    </script>
+</body>
+
 </html>

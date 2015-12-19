@@ -7,7 +7,7 @@ import * as express from 'express';
 export function init(err: any, req: express.Request, res: express.Response, next: Function) {
     var status = err.statusCode || 500;
     if (err.message) {
-        res.send(status, err.message);
+        res.status(status).send(err.message);
     } else {
         res.send(status, err);
     }
