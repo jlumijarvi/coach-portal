@@ -48,6 +48,7 @@ export function init() {
 
     router.post('/account/login', login);
     router.post('/account/token', jwt(jwtOptions), token);
+    router.post('/account/register', register);
 
     router.get('/ping', function(req, res, next) {
         console.log(req.body);
@@ -66,11 +67,21 @@ export function init() {
         var username = req.body['username'];
         var password = req.body['password'];
         var confirmPassword = req.body['confirm_password'];
+
+        if (username == '' || password == '' || password != confirmPassword) {
+            return res.sendStatus(400);
+        }
+        
+        userManager.register(username, password, (err, user) => {
+            if (!user) {
+                return res.sendStatus(err);
+            }
+            res.sendStatus(200);
+        });
     }
 
     function login(req: express.Request, res: express.Response): any {
             
-        // TODO: db
         var username = req.body['username'];
         var password = req.body['password'];
         var remember = 'true' === req.body['remember'];
@@ -86,7 +97,7 @@ export function init() {
 
             if (remember) {
                 var token = tokenManager.create(user, '10d');
-                res.cookie('ACCESS-TOKEN', token.token, { httpOnly: true });
+                res.cookie('ACCESS-TOKEN', token, { httpOnly: true });
                 res.sendStatus(200);
             }
             else {

@@ -30,8 +30,6 @@ app.use(logger('dev'));
 app.use(errorHandler.init);
 app.use(cookieParser(secret.secretToken));
 
-db.init();
-
 // register api routes
 app.use(api.init());
 
@@ -43,17 +41,18 @@ console.log('PORT=' + port);
 console.log('NODE_ENV=' + environment);
 
 switch (environment) {
-    case 'release':
+    case 'production':
         console.log('** RELEASE **');
-        app.use(express.static('./build/release/public'));
+        app.use(express.static('./build/public'));
         // Any deep link calls should return index.html
-        app.use('/*', express.static('./build/release/public/index.html'));
+        app.use('/*', express.static('./build/public/index.html'));
         break;
+    case 'dev':
     default:
         console.log('** DEBUG **');
-        app.use(express.static('./build/debug/public'));
+        app.use(express.static('./build/public'));
         // Any deep link calls should return index.html
-        app.use('/*', express.static('./build/debug/public/index.html'));
+        app.use('/*', express.static('./build/public/index.html'));
         break;
 }
 
@@ -62,4 +61,13 @@ app.listen(port, () => {
     console.log('env = ' + app.get('env') +
         '\n__dirname = ' + __dirname +
         '\nprocess.cwd = ' + process.cwd());
+});
+
+db.init((err) => {
+    if (err) {
+        console.log('db intialization error');
+    }
+    else {
+        console.log('db intialized');
+    }
 });

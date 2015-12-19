@@ -32,13 +32,13 @@ function watch(files, task) {
 
 function serve(isDev) {
     var opts = {
-        script: config.debugServer,
-        delayTime: 5,
+        script: config.server,
+        delayTime: 3000,
         env: {
             'PORT': port,
-            'NODE_ENV': isDev ? 'debug' : 'release'
+            'NODE_ENV': isDev ? 'dev' : 'production'
         },
-        watch: [config.debug]
+        watch: [config.build]
     };
 
     return $.nodemon(opts)
@@ -63,41 +63,41 @@ gulp.task('scripts', ['clean-scripts'], function () {
         .src(config.src + config.ts)
         .pipe($.plumber())
         .pipe($.typescript({ module: 'commonjs' }))
-        .pipe(gulp.dest(config.debug))
+        .pipe(gulp.dest(config.build))
 });
 
 gulp.task('clean-scripts', function () {
-    return clean([config.debug + 'app/']);
+    return clean([config.build + 'api/']);
 });
 
 gulp.task('data', ['clean-data'], function () {
     return gulp
         .src(config.src + config.data)
-        .pipe(gulp.dest(config.debug + 'data/'));
+        .pipe(gulp.dest(config.build + 'data/'));
 });
 
 gulp.task('clean-data', function () {
-    return clean(config.debug + config.data);
+    return clean(config.build + config.data);
 });
 
 gulp.task('favicon', ['clean-favicon'], function () {
     return gulp
         .src(config.src + 'public/favicon.ico')
-        .pipe(gulp.dest(config.debug + 'public/'));
+        .pipe(gulp.dest(config.build + 'public/'));
 });
 
 gulp.task('clean-favicon', function () {
-    return clean(config.debug + 'public/favicon.ico');
+    return clean(config.build + 'public/favicon.ico');
 });
 
 gulp.task('views', ['clean-views'], function () {
     return gulp
         .src(config.src + 'public/**/*.*')
-        .pipe(gulp.dest(config.debug + 'public/'));
+        .pipe(gulp.dest(config.build + 'public/'));
 });
 
 gulp.task('clean-views', function () {
-    return clean(config.debug + 'views');
+    return clean(config.build + 'views');
 });
 
 gulp.task('clean', function () {

@@ -13,24 +13,52 @@ export interface IUser extends mongoose.Document {
     password: string;
     isAdmin: boolean;
     created: Date;
+    roles: string[];
     comparePassword(password: string, cb: any);
+    isInRole(role: string): boolean;
+    addToRole(role: string): void;
+    removeFromRole(role: string): void;
 }
 
 var userScema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     isAdmin: { type: Boolean, default: false },
-    created: { type: Date, default: Date.now }
+    created: { type: Date, default: Date.now },
+    roles: { type: [String] }
 });
 
 //Password verification
 userScema.method('comparePassword', function(password: string, cb: any) {
-    bcrypt.compare(password, this.password, (err, isMatch) => {
+    var that = <IUser>this;
+    bcrypt.compare(password, that.password, (err, isMatch) => {
         if (err) {
             return cb(err);
         }
         cb(isMatch);
     });
+});
+
+userScema.method('isInRole', function(role: string) {
+    var that = <IUser>this;
+    return that.roles.some((value) => {
+        return value === role;
+    });
+});
+
+userScema.method('addToRole', function(role: string) {
+    var that = <IUser>this;
+    if (!that.isInRole(role)) {
+        that.roles.push(role);
+    }
+});
+
+userScema.method('removeFromRole', function(role: string) {
+    var that = <IUser>this;
+    var idx = that.roles.indexOf(role);
+    if (idx >= 0) {
+        that.roles.splice(idx, 1);
+    }
 });
 
 // Bcrypt middleware on UserSchema

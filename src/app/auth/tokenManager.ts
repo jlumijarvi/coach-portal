@@ -6,15 +6,16 @@ import * as userModel from '../models/user';
 import * as jsonwebtoken from 'jsonwebtoken';
 import * as secret from './secret';
 import * as tokenModel from '../models/token';
+import * as _ from 'underscore';
 
-export function create(user: userModel.IUser, expiresIn?: string): tokenModel.IToken {
+export function create(user: userModel.IUser, expiresIn?: string): string {
 	var data = {
 		id: user.id,
-		name: user.username
+		name: user.username,
+		iss: 'http://localhost/4000'
 	};
-
-	var token = jsonwebtoken.sign(data, secret.secretToken, { expiresIn: expiresIn || '1d' });
-	_.extend(data, data, { token: token });
 	
-	return <tokenModel.IToken>data;
+	var token = jsonwebtoken.sign(data, secret.secretToken, { expiresIn: expiresIn || '1d' });
+	
+	return token;
 }

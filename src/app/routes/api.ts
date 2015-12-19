@@ -4,7 +4,6 @@
 
 import * as express from 'express';
 import * as jwt from 'express-jwt';
-import * as jsonwebtoken from 'jsonwebtoken';
 import * as cors from 'cors';
 import * as secret from '../auth/secret';
 import * as jsonfileservice from '../utils/jsonfileservice';
@@ -15,8 +14,6 @@ import * as userManager from '../auth/userManager';
 import * as _user from '../models/user';
 var User = _user.User;
 
-var expiresIn = '1d';
-
 export function init() {
 
     var api = '/api/';
@@ -24,13 +21,16 @@ export function init() {
         secret: secret.secretToken
     };
     var data = '/../../data/';
+    var expiresIn = '1d';
 
     var router = express.Router();
 
-    router.use(cors());
+    router.options('*', cors());
 
     router.post(api + 'authenticate', authenticate);
-    router.post(api + 'token', jwt(jwtOptions), token);
+    router.post(api + 'token', jwt(jwtOptions), authenticate);
+
+    router.use(jwt({ secret: secret.secretToken, credentialsRequired: false }), tokenRefresh);
 
     router.get(api + 'getuserinfo', jwt(jwtOptions), getUserInfo);
     router.get(api + 'customer/:id', jwt(jwtOptions), getCustomer);
@@ -38,14 +38,7 @@ export function init() {
 
     router.get(api + '*', four0four.notFoundMiddleware);
 
-    router.use((err: any, req: express.Request, res: express.Response, next: Function) => {
-        console.log('error in API');
-        console.log(err);
-        if (err.status === 401) {
-            return res.sendStatus(401);
-        }
-        next(err);
-    });
+    router.use(errorHandler);
 
     function authenticate(req: express.Request, res: express.Response) {
 
@@ -61,7 +54,7 @@ export function init() {
                 return res.send(401);
             }
 
-            var token = tokenManager.create(user);
+            var token = tokenManager.create(user, expiresIn);
             res.json(token);
         });
     }
@@ -72,7 +65,10 @@ export function init() {
     }
 
     function getUserInfo(req: express.Request, res: express.Response) {
-        return res.json(req.user);
+        var user = User.findById(req.user.id, (err, user) => {
+            var clientUser = _.omit(user.toObject(), ['_id', 'password', '__v']);
+            return res.json(clientUser);
+        });
     }
 
     function getCustomer(req: express.Request, res: express.Response) {
@@ -108,6 +104,26 @@ export function init() {
         catch (ex) {
             four0four.send404(req, res, msg + ex.message);
         }
+    }
+
+    function logger(req: express.Request, res: express.Response, next: Function) {
+    }
+
+    function errorHandler(err: any, req: express.Request, res: express.Response, next: Function) {
+        console.log('error in API');
+        console.log(err);
+        if (err.status === 401) {
+            return res.sendStatus(401);
+        }
+        next(err);
+    }
+
+    function tokenRefresh(req: express.Request, res: express.Response, next: Function) {
+        if (req.user) {
+            var token = tokenManager.create(req.user, expiresIn);
+            res.setHeader('X-Access-Token', token);
+        }
+        next();
     }
 
     return router;
