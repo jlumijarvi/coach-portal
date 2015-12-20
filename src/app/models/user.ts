@@ -5,31 +5,69 @@
 import * as bcrypt from 'bcrypt';
 import * as mongoose from 'mongoose';
 import * as userModel from '../models/user';
+import * as validators from '../models/validators';
 
 var SALT_WORK_FACTOR = 10;
 
 export interface IUser extends mongoose.Document {
     username: string;
+    email: string;
     password: string;
     isAdmin: boolean;
     created: Date;
     roles: string[];
+    verified: boolean;
+    locked: boolean;
+
     comparePassword(password: string, cb: any);
     isInRole(role: string): boolean;
     addToRole(role: string): void;
     removeFromRole(role: string): void;
 }
 
-var userScema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    isAdmin: { type: Boolean, default: false },
-    created: { type: Date, default: Date.now },
-    roles: { type: [String] }
+export var UserScema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true,
+        validate: validators.ValidationGroup(validators.passwordValidator(8))
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
+    created: {
+        type: Date,
+        default: Date.now
+    },
+    roles: {
+        type: [String]
+    },
+    email: {
+        type: String,
+        required: true,
+        validate: validators.emailValidator()
+    },
+    phoneNumber: {
+        type: String,
+        validate: validators.phoneNumberValidator()
+    },
+    verified: {
+        type: Boolean,
+        default: false
+    },
+    locked: {
+        type: Boolean,
+        default: false
+    }
 });
 
 //Password verification
-userScema.method('comparePassword', function(password: string, cb: any) {
+UserScema.method('comparePassword', function(password: string, cb: any) {
     var that = <IUser>this;
     bcrypt.compare(password, that.password, (err, isMatch) => {
         if (err) {
@@ -39,21 +77,21 @@ userScema.method('comparePassword', function(password: string, cb: any) {
     });
 });
 
-userScema.method('isInRole', function(role: string) {
+UserScema.method('isInRole', function(role: string) {
     var that = <IUser>this;
     return that.roles.some((value) => {
         return value === role;
     });
 });
 
-userScema.method('addToRole', function(role: string) {
+UserScema.method('addToRole', function(role: string) {
     var that = <IUser>this;
     if (!that.isInRole(role)) {
         that.roles.push(role);
     }
 });
 
-userScema.method('removeFromRole', function(role: string) {
+UserScema.method('removeFromRole', function(role: string) {
     var that = <IUser>this;
     var idx = that.roles.indexOf(role);
     if (idx >= 0) {
@@ -62,7 +100,7 @@ userScema.method('removeFromRole', function(role: string) {
 });
 
 // Bcrypt middleware on UserSchema
-userScema.pre('save', function(next) {
+UserScema.pre('save', function(next) {
     var user = <IUser>this;
 
     if (!user.isModified('password')) {
@@ -84,4 +122,4 @@ userScema.pre('save', function(next) {
     });
 });
 
-export var User = mongoose.model<IUser>('User', userScema);
+export var User = mongoose.model<IUser>('User', UserScema);

@@ -72,12 +72,13 @@ export = (app: express.Express) => {
 
     router.post('/checkpassword', (req, res, next) => {
         userManager.checkPasswordStrength(req.body.password, (isValid, msgs) => {
-            res.send({ isValid: isValid, msg: msgs });
+            res.send({ isValid: isValid, errors: msgs });
         });
     });
 
     function register(req: express.Request, res: express.Response): any {
         var username: string = req.body['username'];
+        var email: string = req.body['email'];
         var password: string = req.body['password'];
         var confirmPassword: string = req.body['confirm_password'];
 
@@ -85,9 +86,9 @@ export = (app: express.Express) => {
             return res.status(400).send('Password and confirm password did not match');
         }
 
-        userManager.register(username, password, (err, result) => {
+        userManager.register(username, password, email, (err, result) => {
             if (err !== 200) {
-                return res.status(err).json(result);
+                return res.status(err).json(err.errors);
             }
             res.sendStatus(200);
         });

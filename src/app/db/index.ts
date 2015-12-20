@@ -29,19 +29,19 @@ export function init(cb: any) {
         if (User.findOne({ username: 'admin' }).exec().then((result) => {
             var user = result || new User();
             user.username = 'admin';
-            user.password = 'password';
+            user.email = 'john.doe@foo.com';
+            user.password = '#,K:s#n$j$s6Rm';
             user.created = new Date();
             user.isAdmin = true;
             if (!user.isInRole('admin')) {
                 user.roles.push('admin');
             }
-            ['admin2', 'admin3'].forEach((value) => {
-                user.removeFromRole(value);
-            });
             user.save((err, res) => {
+                console.log(err);
                 cb(err);
             });
         }, (err) => {
+            console.log(err);
             cb(err);
         }));
     });

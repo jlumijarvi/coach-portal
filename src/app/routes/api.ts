@@ -8,7 +8,7 @@ import * as four0four from '../utils/404';
 export = (app: express.Express) => {
     
     app.use(errorHandler);
-    app.use(require('./v1')('/api/'))
+    app.use(require('./v1')('/api/'));
     app.use(require('./v1')());
     app.get('/api/' + '*', four0four.notFoundMiddleware);
 
