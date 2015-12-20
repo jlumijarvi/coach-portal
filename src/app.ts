@@ -45,7 +45,6 @@ switch (environment) {
         // Any deep link calls should return index.html
         app.use('/*', express.static('./build/public/index.html'));
         break;
-    case 'dev':
     default:
         console.log('** DEBUG **');
         app.use(express.static('./build/public'));

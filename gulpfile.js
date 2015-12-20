@@ -121,6 +121,14 @@ gulp.task('tsconfig', function () {
         .pipe($.tsconfigUpdate());
 });
 
+gulp.task('tsdhack', function () {
+    gulp.src('typings/requirejs/require.d.ts')
+        .pipe($.replace('declare var require: Require;', 'declare var require: NodeRequire;'))
+        .pipe(gulp.dest(function(f) {
+            return f.base;
+        }));
+});
+
 gulp.task('build', ['tsconfig', 'scripts', 'data', 'views', 'favicon']);
 gulp.task('build-start', ['build', 'watch'], function () {
     return gulp.start('start');
