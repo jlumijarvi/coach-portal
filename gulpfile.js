@@ -126,5 +126,9 @@ gulp.task('build-start', ['build', 'watch'], function () {
     return gulp.start('start');
 });
 
+gulp.task('clean-build', ['clean'], function () {
+    gulp.start('build');
+});
+
 gulp.task('help', $.taskListing);
 gulp.task('default', ['help']);

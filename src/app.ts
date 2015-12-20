@@ -18,13 +18,13 @@ import * as db from './app/db';
 // initialize app
 var app = express();
 var port = process.env.PORT || 4000;
-var environment = process.env.NODE_ENV;
+var environment = process.env.NODE_ENV || 'dev';
 
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(compress());
-app.use(logger('dev'));
+app.use(logger(environment));
 app.use(errorHandler.init);
 app.use(cookieParser(secret.secretToken));
 
