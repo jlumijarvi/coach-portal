@@ -15,7 +15,7 @@ import * as mongoose from 'mongoose';
 import * as tokenManager from '../auth/tokenManager';
 import * as userManager from '../auth/userManager';
 
-export function init() {
+export = (app: express.Express) => {
 
     var data = '/../../data/';
 
@@ -125,5 +125,6 @@ export function init() {
         res.json(token);
     }
 
-    return router;
+    // add routes to app
+    app.use(router);
 }

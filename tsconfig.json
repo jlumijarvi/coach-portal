@@ -22,6 +22,7 @@
         "src/app/routes/index.ts",
         "src/app/utils/404.ts",
         "src/app/utils/errorHandler.ts",
-        "src/app/utils/jsonfileservice.ts"
+        "src/app/utils/jsonfileservice.ts",
+        "src/app/routes/v1/index.ts"
     ]
 }
