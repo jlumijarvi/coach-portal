@@ -1,0 +1,356 @@
+// Global constants
+$animationDuration: 1s;
+
+.ng-enter, .ng-leave, .ng-enter-active, .ng-leave-active {
+  overflow: hidden;
+}
+
+/* Slide animation */
+.content .page.slide {
+  left: 0;
+  top: 0;
+  width: 100%;
+
+  // height: 100%;
+}
+
+.content .page.slide.ng-enter,
+.content .page.slide.ng-leave {
+  transition: all $animationDuration ease;
+}
+
+.content .page.slide.ng-enter {
+  left: 100%;
+}
+
+.content .page.slide.ng-enter-active {
+  left: 0;
+}
+
+.content .page.slide.ng-leave {
+  left: 0;
+}
+
+.content .page.slide.ng-leave-active {
+  left: -100%;
+}
+
+.reverse .page.slide.ng-enter {
+  left: -100%;
+}
+
+.reverse .page.slide.ng-enter-active {
+  left: 0;
+}
+
+.reverse .page.slide.ng-leave {
+  left: 0;
+}
+
+.reverse .page.slide.ng-leave-active {
+  left: 100%;
+}
+
+/* Slidedown */
+.content .page.slidedown {
+  left: 0;
+  width: 100%;
+
+  // height: 100%;
+}
+
+.content .page.slidedown.ng-enter,
+.content .page.slidedown.ng-leave {
+  transition: all $animationDuration ease;
+}
+
+.content .page.slidedown.ng-enter {
+  top: -100%;
+}
+
+.content .page.slidedown.ng-enter-active {
+  top: 0;
+}
+
+.content .page.slidedown.ng-leave {
+  top: 0;
+}
+
+.content .page.slidedown.ng-leave-active {
+  top: 100%;
+}
+
+.reverse .page.slidedown.ng-enter {
+  top: 100%;
+}
+
+.reverse .page.slidedown.ng-enter-active {
+  top: 0;
+}
+
+.reverse .page.slidedown.ng-leave {
+  top: 0;
+}
+
+.reverse .page.slidedown.ng-leave-active {
+  top: -100%;
+}
+
+/* Slideup */
+.content .page.slideup {
+  left: 0;
+  right: 0;
+
+  // height: 100%;
+}
+
+.content .page.slideup.ng-enter,
+.content .page.slideup.ng-leave {
+  transition: all 1s ease;
+}
+
+.content .page.slideup.ng-enter {
+  top: 100%;
+}
+
+.content .page.slideup.ng-enter-active {
+  top: 0;
+}
+
+.content .page.slideup.ng-leave {
+  top: 0;
+}
+
+.content .page.slideup.ng-leave-active {
+  top: -100%;
+}
+
+.reverse .page.slideup.ng-enter {
+  top: -100%;
+}
+
+.reverse .page.slideup.ng-enter-active {
+  top: 0;
+}
+
+.reverse .page.slideup.ng-leave {
+  top: 0;
+}
+
+.reverse .page.slideup.ng-leave-active {
+  top: 100%;
+}
+
+/* Pop in/out animation */
+.content .page.pop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.content .page.pop.ng-enter,
+.content .page.pop.ng-leave {
+  transition: all $animationDuration ease;
+}
+
+.content .page.pop.ng-enter {
+  transform: scale(0);
+}
+
+.content .page.pop.ng-enter-active,
+.content .page.pop.ng-leave,
+.content .page.pop.ng-leave-active {
+  transform: scale(1);
+}
+
+//.content .page.pop.ng-leave-active {}
+
+/* Fade in/out */
+.content .page.fade {
+  left: 0;
+  right: 0;
+  margin-right: auto;
+  margin-left: auto;
+
+  // height: 100%;
+  opacity: 1;
+}
+
+.content .page.fade.ng-enter,
+.content .page.fade.ng-leave {
+  transition: all $animationDuration ease;
+}
+
+.content .page.fade.ng-enter {
+  opacity: 0;
+}
+
+.content .page.fade.ng-enter-active {
+  opacity: 1;
+}
+
+.content .page.fade.ng-leave {
+  opacity: 1;
+}
+
+.content .page.fade.ng-leave-active {
+  opacity: 0;
+}
+
+/* Flip animation */
+// .content {
+// 	perspective: 600px;
+// }
+.content .page.flip {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: all $animationDuration ease-in-out;
+}
+
+.content .page.flip.ng-enter {
+  transform: rotateY(-180deg);
+  z-index: 800;
+}
+
+.content .page.flip.ng-enter-active {
+  transform: rotateY(0deg);
+  z-index: 900;
+}
+
+.content .page.flip.ng-leave {
+  transform: rotateY(0deg);
+  z-index: 900;
+}
+
+.content .page.flip.ng-leave-active {
+  transform: rotateY(180deg);
+  z-index: 800;
+}
+
+/* Rotate animation */
+.content .page.rotate {
+  animation-duration: $animationDuration;
+}
+
+.content .page.ng-leave.rotate {
+  animation-name: rotate-leave;
+}
+
+.content .page.ng-enter.rotate {
+  animation-name: rotate-enter;
+}
+
+@-webkit-keyframes rotate-leave {
+  0% {
+    transform-origin: center center;
+    transform: rotate(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform-origin: center center;
+    transform: rotate(-180deg);
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes rotate-enter {
+  0% {
+    transform-origin: center center;
+    transform: rotate(-180deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform-origin: center center;
+    transform: rotate(-360deg);
+    opacity: 1;
+  }
+}
+
+@keyframes rotate-leave {
+  0% {
+    transform-origin: center center;
+    transform: rotate(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform-origin: center center;
+    transform: rotate(-180deg);
+    opacity: 0;
+  }
+}
+
+@keyframes rotate-enter {
+  0% {
+    transform-origin: center center;
+    transform: rotate(-180deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform-origin: center center;
+    transform: rotate(-360deg);
+    opacity: 1;
+  }
+}
+
+/* slide-pop screen animation */
+.content .page.slide-pop {
+  left: 0;
+  top: 0;
+  width: 100%;
+
+  // height: 100%;
+}
+
+.content .page.slide-pop.ng-enter,
+.content .page.slide-pop.ng-leave {
+  transition: all $animationDuration linear;
+}
+
+.content .page.slide-pop.ng-enter {
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+.content .page.slide-pop.ng-enter-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.content .page.slide-pop.ng-leave {
+  left: 0;
+  opacity: .5;
+}
+
+.content .page.slide-pop.ng-leave-active {
+  left: -100%;
+  opacity: 0;
+}
+
+.reverse .page.slide-pop.ng-enter {
+  opacity: .5;
+  left: -100%;
+  transform: scale(1);
+}
+
+.reverse .page.slide-pop.ng-enter-active {
+  opacity: 1;
+  left: 0;
+}
+
+.reverse .page.slide-pop.ng-leave {
+  opacity: .5;
+  transform: scale(1);
+  left: 0;
+  right: 0;
+}
+
+.reverse .page.slide-pop.ng-leave-active {
+  opacity: 0;
+  transform: scale(0.5);
+}

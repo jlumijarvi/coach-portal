@@ -1,0 +1,50 @@
+[
+	{
+		"name": "Urheilijan ikä",
+		"options": [
+			{
+				"name": "Lapsuusvaihe"
+			},
+			{
+				"name": "Nuoruusvaihe"
+			},
+			{
+				"name": "Aikuisvaihe"
+			}
+		]
+	},
+	{
+		"name": "Urheilijan taso",
+		"options": [
+			{
+				"name": "Harraste"
+			},
+			{
+				"name": "Kilpa"
+			},
+			{
+				"name": "Huippu"
+			}
+		]
+	},
+	{
+		"name": "Urheilijan sukupuoli",
+		"options": [
+			"Nainen",
+			"Mies",
+			"Molempia"
+		]
+	},
+	{
+		"name": "Kulttuuri",
+		"options": [
+			"Etninen tausta, uskonto, urheilu- ja valmennuskulttuuri, lajikulttuuri"
+		]
+	},
+	{
+		"name": "Olosuhteet",
+		"options": [
+			"Paikkakunnan koko, harjoittelu ja kilpailutilat, seuran toiminta, muut toimijat esim. valmennus"
+		]
+	}
+]

@@ -1,0 +1,60 @@
+<div class="container-fluid">
+	<div hidden class="row">
+		<div class="col-xs-offset-2 col-xs-10">
+			<h2>{{vm.title}}</h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-offset-2 col-xs-4">
+			<div class="input-group">
+				<input type="text" class="form-control" readonly value="Matti Meikäläinen" aria-label="Text input with dropdown button">
+				<div class="input-group-btn">
+					<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					</button>
+					<div class="dropdown-menu dropdown-menu-right scrollable-menu">
+						<a class="dropdown-item" href="#/">Matti Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Maija Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Matti Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Maija Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Matti Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Maija Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Matti Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Maija Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Matti Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Maija Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Matti Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Maija Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Matti Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Maija Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Matti Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Maija Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Matti Meikäläinen</a>
+						<a class="dropdown-item" href="#/">Maija Meikäläinen</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row top-buffer"></div>
+	<div class="row" ng-repeat="attribute in vm.attributes" style="padding: 5px">
+		<div class="col-xs-2 text-right vertical-center">
+			<div ng-show="!!attribute.options">
+				<span ng-class="{'text-success': vm.hasSelections(attribute)}">{{attribute.name}}</span>
+			</div>
+		</div>
+		<div class="col-xs-10">
+			<div class="card-deck-wrapper" ng-show="!!attribute.options">
+				<div class="card-deck">
+					<div class="card text-center pointer" ng-repeat="opt in attribute.options" ng-click="vm.toggleSelected(attribute, opt)" ng-class="{'card-info': !opt.isSelected, 'card-danger': opt.isSelected}">
+						<div class="card-block">
+							<div class="card-text">{{opt.name}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-show="!attribute.options">
+				<h3 class="text-center">{{attribute.name</h3>
+			</div>
+		</div>
+	</div>
+</div>

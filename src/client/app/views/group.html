@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="card">
+    <div class="card-block">
+      <h3 class="card-title">{{vm.action}} ryhmä</h3>
+    </div>
+    <div class="card-block">
+      <form name="myForm" bs-form>
+        <div class="form-group">
+          <label for="name">Nimi</label>
+          <input type="text" class="form-control" ng-model="vm.group.name" placeholder="" required autofocus>
+        </div>
+        <div class="form-group">
+          <label for="text">Laji</label>
+          <input type="text" class="form-control" ng-model="vm.group.sport" placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="text">Kommentit</label>
+          <input type="text" class="form-control" ng-model="vm.group.comments" placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="number">Logo</label>
+          <input type="file" bs-file-input ng-change="vm.filesChanged" ng-model="vm.group.logo">
+        </div>
+        <button type="submit" class="btn btn-primary" ng-disabled="myForm.$invalid">Talleta</button>
+      </form>
+    </div>
+  </div>
+</div>

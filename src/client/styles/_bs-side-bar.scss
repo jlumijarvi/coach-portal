@@ -1,0 +1,85 @@
+/*!
+ * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+/* Toggle Styles */
+
+// Constants
+$sideBarWidth: 200px;
+
+#sidebar-wrapper {
+  z-index: 1000;
+  position: fixed;
+  left: $sideBarWidth;
+  width: $sideBarWidth;
+  height: 99%;
+  margin-left: -$sideBarWidth;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #000;
+  opacity: 0.99;
+  transition: all 0.3s ease;
+  margin-top: 5px;
+  border-radius: 3px;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  width: 0;
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: $sideBarWidth;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    text-indent: 20px;
+    line-height: 40px;
+
+    a {
+      display: block;
+      text-decoration: none;
+      color: #999999;
+    }
+
+    a:hover {
+      text-decoration: none;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    a:active, a:focus {
+      text-decoration: none;
+    }
+    
+    .active {
+      // background: rgba(255, 255, 255, 0.10);
+    }
+  }
+  
+  hr {
+    color: #fff;
+  }
+
+  > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+
+    a {
+      color: #999999;
+    }
+
+    a:hover {
+      color: #fff;
+      background: none;
+    }
+  }
+}

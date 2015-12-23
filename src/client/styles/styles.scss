@@ -1,0 +1,79 @@
+// styles.scss
+
+// bower variables
+@import "../../../bower_components/bootstrap/scss/variables";
+
+$fontSize: 15px;
+$headerHeight: 50px;
+$footerHeight: 40px;
+
+body {
+  font-family: 'Roboto', serif !important;
+  font-size: $fontSize;
+  padding-bottom: 60px;
+  overflow: hidden;
+}
+
+li .fa {
+  display: inline;
+}
+
+.vertical-center {
+  padding: 1.25rem;
+}
+
+.small-margin {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.top-buffer {
+  padding-top: 20px;
+}
+
+.scrollable-menu {
+  height: auto;
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.navbar-buffer {
+  padding-top: 60px !important;
+}
+
+.navbar-fixed-top {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: $headerHeight !important;
+  right: 0px;
+  overflow: hidden;
+  border-radius: 3px;
+  z-index: 999 !important;
+}
+
+.navbar-fixed-bottom {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  height: $footerHeight !important;
+  right: 0px;
+  overflow: hidden;
+  border-radius: 3px;
+  z-index: 999 !important;
+}
+
+.main-content {
+  position: absolute;
+  top: $headerHeight !important;
+  bottom: $footerHeight !important;
+  left: 0px;
+  right: 0px;
+  overflow: auto;
+}
+
+@import "utils";
+@import "bs-side-bar";
+@import "bs-tooltip";
+@import "page-animations";

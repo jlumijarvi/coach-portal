@@ -1,0 +1,14 @@
+{
+	"persons": [
+		{
+			"name": "Matti Meikäläinen",
+			"age": 30,
+			"gender": "M"
+		},
+		{
+			"name": "Maija Meikäläinen",
+			"age": 28,
+			"gender": "F"
+		}
+	]
+}

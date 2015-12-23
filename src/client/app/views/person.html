@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="card">
+    <div class="card-block">
+      <h3 class="card-title">Lisää henkilö</h3>
+    </div>
+    <div class="card-block">
+      <form name="myForm" bs-form ng-submit="vm.submit()">
+        <div class="form-group">
+          <label class="text-danger" for="name">Nimi</label>
+          <input type="text" class="form-control" ng-model="vm.person.name" placeholder="" required autofocus>
+        </div>
+        <div class="form-group">
+          <label class="text-danger" for="text">Sukupuoli</label>
+          <div class="form-inline" required>
+            <select ng-model="gender" class="form-control" required>
+              <option value="F">Nainen</option>
+              <option value="M">Mies</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="text-danger" for="name">Syntymäpäivä</label>
+          <bs-date-picker ng-model="vm.person.birthDate" name="birthDate" required></bs-date-picker>
+        </div>
+        <div class="form-group">
+          <label for="number">Arvioitu taso (1-10)</label>
+          <input type="number" class="form-control auto-width" ng-model="vm.person.level" placeholder="" min="1" max="10">
+        </div>
+        <div class="form-group">
+          <label for="text">Kulttuuriset tekijät</label>
+          <input type="text" class="form-control" ng-model="vm.person.culture" placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="email">Sähköpostiosoite</label>
+          <input type="email" class="form-control" ng-model="vm.person.email" placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="text">Muistiinpanot</label>
+          <textarea rows="5" class="form-control" ng-model="vm.person.comments" placeholder=""></textarea>
+        </div>
+        <div class="form-group">
+          <label for="number">Kuva</label>
+          <input type="file" bs-file-input ng-change="vm.filesChanged" ng-model="vm.files">
+        </div>
+        <button type="submit" class="btn btn-primary" ng-disabled="myForm.$invalid">Talleta</button>
+      </form>
+    </div>
+  </div>
+</div>

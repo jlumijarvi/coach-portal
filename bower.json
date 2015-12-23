@@ -1,0 +1,56 @@
+{
+  "name": "coach-portal-client",
+  "description": "",
+  "main": "",
+  "authors": [
+    ""
+  ],
+  "license": "MIT",
+  "moduleType": [
+    "amd"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "angular": "~1.4.7",
+    "angular-i18n": "~1.4.8",
+    "angular-route": "~1.4.7",
+    "angular-resource": "~1.4.7",
+    "angular-animate": "~1.4.7",
+    "font-awesome": "~4.4.0",
+    "underscore": "~1.8.3",
+    "bootstrap": "v4.0.0-alpha",
+    "wtf-forms": "~2.2.0",
+    "tether": "~1.1.1",
+    "bowser": "~1.0.0",
+    "notie": "*"
+  },
+  "overrides": {
+    "font-awesome": {
+      "main": [
+        "css/font-awesome.css",
+        "less/font-awesome.less"
+      ]
+    },
+    "bootstrap": {
+      "main": [
+        "scss/bootstrap.scss",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    },
+    "angular-i18n": {
+      "main": [
+        "angular-locale_fi-fi.js"
+      ]
+    }
+  }
+}

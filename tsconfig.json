@@ -1,0 +1,53 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es3",
+        "noImplicitAny": false,
+        "outDir": "built",
+        "rootDir": ".",
+        "sourceMap": false
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "files": [
+        "src/server/app.ts",
+        "src/client/app/app.ts",
+        "src/server/app/auth/secret.ts",
+        "src/server/app/auth/tokenManager.ts",
+        "src/server/app/auth/userManager.ts",
+        "src/server/app/db/index.ts",
+        "src/server/app/models/role.ts",
+        "src/server/app/models/token.ts",
+        "src/server/app/models/user.ts",
+        "src/server/app/models/validators.ts",
+        "src/server/app/routes/api.ts",
+        "src/server/app/routes/index.ts",
+        "src/server/app/utils/404.ts",
+        "src/server/app/utils/errorHandler.ts",
+        "src/server/app/utils/jsonfileservice.ts",
+        "src/server/app/utils/taskCounter.ts",
+        "src/client/app/controllers/groupCtrl.ts",
+        "src/client/app/controllers/menuCtrl.ts",
+        "src/client/app/controllers/opEnvCtrl.ts",
+        "src/client/app/controllers/personCtrl.ts",
+        "src/client/app/core/constants.ts",
+        "src/client/app/core/filters.ts",
+        "src/client/app/directives/bootstrapDatePicker.ts",
+        "src/client/app/directives/bootstrapDateUiPicker.ts",
+        "src/client/app/directives/bootstrapFileInput.ts",
+        "src/client/app/directives/bootstrapForm.ts",
+        "src/client/app/directives/bootstrapSideBarWrapper.ts",
+        "src/client/app/directives/bootstrapTooltip.ts",
+        "src/client/app/models/attribute.ts",
+        "src/client/app/models/button.ts",
+        "src/client/app/models/group.ts",
+        "src/client/app/models/menuItem.ts",
+        "src/client/app/models/option.ts",
+        "src/client/app/models/person.ts",
+        "src/client/app/services/bootstrapUtils.ts",
+        "src/client/app/services/dataContext.ts",
+        "src/client/app/services/notie.ts",
+        "src/server/app/routes/v1/index.ts"
+    ]
+}

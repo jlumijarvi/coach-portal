@@ -1,0 +1,16 @@
+<div class="form-group form-inline">
+	<div class="form-inline">
+		<select id="day" class="form-control" ng-model="date.day" ng-change="dateChanged()" ng-required="required">
+			<option value="">-- Päivä --</option>
+			<option ng-repeat="day in days" ng-value="day">{{day}}.</option>
+		</select>
+		<select id="month" class="form-control" ng-model="date.month" ng-change="dateChanged()" ng-required="required">
+			<option value="">-- Kuukausi --</option>
+			<option ng-repeat="month in months" ng-value="$index + 1">{{month}}</option>
+		</select>
+		<select id="year" class="form-control" ng-model="date.year" ng-change="dateChanged()" ng-required="required">
+			<option value="">-- Vuosi --</option>
+			<option ng-repeat="year in years" ng-value="year">{{year}}</option>
+		</select>
+	</div>
+</div>
