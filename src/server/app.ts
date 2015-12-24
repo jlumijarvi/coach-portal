@@ -23,7 +23,7 @@ var environment = process.env.NODE_ENV || 'dev';
 var root = __dirname + '/';
 var publicDir = environment === 'production' ? 'public/' : 'public-dev/';
 
-app.use(favicon(root + publicDir + 'favicon.ico'));
+app.use(favicon(root + publicDir + 'favicons/favicon.ico'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(compress());

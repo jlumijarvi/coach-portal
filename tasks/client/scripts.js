@@ -14,7 +14,9 @@ gulp.task('scripts', ['clean-scripts'], function () {
         .pipe(gulp.dest(config.build + 'app/'))
         .pipe(jsFilter.restore)
         .pipe(tsFilter)
-        .pipe($.typescript())
+        .pipe($.sourcemaps.init())
+        .pipe($.typescript({ module: 'commonjs' }))
+        .pipe($.sourcemaps.write())
         .pipe(gulp.dest(config.build + 'app/'))
 });
 

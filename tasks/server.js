@@ -48,7 +48,7 @@ gulp.task('scripts', ['clean-scripts'], function () {
     return gulp
         .src(config.src + config.ts)
         .pipe($.plumber())
-        .pipe($.typescript({ module: 'commonjs' }))
+        .pipe($.typescript({ module: 'commonjs', sourceMap: true }))
         .pipe(gulp.dest(config.build))
 });
 

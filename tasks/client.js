@@ -46,8 +46,17 @@ gulp.task('clean', function () {
     return utils.clean(config.build);
 });
 
-gulp.task('build', ['scripts', 'templates', 'styles', 'assets', 'bower'], function () {
+gulp.task('inject', ['scripts', 'templates', 'styles', 'assets', 'bower'], function () {
     return inject();
+});
+
+gulp.task('build', ['favicons'], function () {
+    gulp
+        .src(config.build + config.index)
+        .pipe($.prettify({ indent_size: 2 }))
+        .pipe(gulp.dest(function (f) {
+            return f.base;
+        }));
 });
 
 gulp.task('clean-build', ['clean'], function (done) {
@@ -64,17 +73,13 @@ gulp.task('clean-bower', function () {
     return utils.clean(config.build + 'bower_components');
 });
 
-gulp.task('inject', ['scripts', 'styles'], function () {
-    return inject();
-});
-
 gulp.task('watch', function () {
     if (argv.r) {
         return;
     }
 
     watch(config.src + config.index, ['inject']);
-    watch(config.src + config.favicon, ['favicon']);
+    watch(config.src + config.logo, ['favicons']);
     watch(config.src + config.templates, ['templates']);
     watch(config.src + config.ts, ['tsconfig', 'inject']);
     watch(config.src + config.js, ['inject']);
@@ -105,6 +110,16 @@ gulp.task('browser-sync', function () {
     options.logPrefix = 'coach-portal';
 
     browserSync.init(options);
+});
+
+gulp.task('favicons', ['clean-favicons', 'inject'], function () {
+    return gulp
+        .src(config.logo).pipe($.favicons(config.faviconOptions))
+        .pipe(gulp.dest(config.build + 'favicons/'));
+});
+
+gulp.task('clean-favicons', function () {
+    return utils.clean(config.build + 'favicons/');
 });
 
 gulp.task('start', ['browser-sync', 'watch']);

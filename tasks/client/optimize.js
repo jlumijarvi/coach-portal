@@ -44,7 +44,11 @@ gulp.task('optimize', ['release'], function () {
         .pipe(gulp.dest(config.optimized));
 });
 
-gulp.task('templatecache', ['build', 'clean-templatecache'], function () {
+gulp.task('clean-optimize', ['clean-templatecache'], function() {
+    return utils.clean(config.optimized);
+});
+
+gulp.task('templatecache', ['clean-templatecache'], function () {
     return gulp
         .src(config.build + config.templates)
         .pipe($.minifyHtml())
@@ -53,5 +57,5 @@ gulp.task('templatecache', ['build', 'clean-templatecache'], function () {
 });
 
 gulp.task('clean-templatecache', function () {
-    return utils.clean(config.temp + 'templates.js');
+    return utils.clean(config.temp);
 });

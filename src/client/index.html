@@ -1,89 +1,60 @@
 <!DOCTYPE html>
-<html ng-app="app" ng-strict-di>
+<html ng-app="app" ng-strict-di="">
 
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <meta name="description" content="" />
-  <meta name="author" content="" />
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <title ng-bind="title"></title>
+    <!-- build:css styles/lib.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css styles/styles.css -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- endbuild -->
+  </head>
 
-  <link rel="icon" href="favicon.ico">
-  <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-
-  <title ng-bind="title"></title>
-
-  <!-- build:css styles/lib.css -->
-  <!-- bower:css -->
-  <!-- endbower -->
-  <!-- endbuild -->
-
-  <!-- build:css styles/styles.css -->
-  <!-- inject:css -->
-  <!-- endinject -->
-  <!-- endbuild -->
-</head>
-
-<body id="top">
-
-  <div bs-side-bar-layout style="display:none">
-    <!-- Sidebar -->
-    <div id="sidebar-wrapper">
-      <div ng-controller="Menu as vm">
-        <ul class="sidebar-nav">
-          <li class="sidebar-brand">
-            <a href="#/">{{vm.title}}</a>
-          </li>
-          <li ng-repeat="item in vm.menuItems">
-            <a ng-href="#{{item.href}}" ng-class="{'active': item.isActive}">{{item.text}}</a>
-          </li>
-        </ul>
+  <body id="top">
+    <div bs-side-bar-layout="" style="display:none">
+      <!-- Sidebar -->
+      <div id="sidebar-wrapper">
+        <div ng-controller="Menu as vm">
+          <ul class="sidebar-nav">
+            <li class="sidebar-brand"> <a href="#/">{{vm.title}}</a> </li>
+            <li ng-repeat="item in vm.menuItems"> <a ng-href="#{{item.href}}" ng-class="{'active': item.isActive}">{{item.text}}</a> </li>
+          </ul>
+        </div>
       </div>
-    </div>
-    <!-- /#sidebar-wrapper -->
-    <!-- Page Content -->
-    <div id="page-content-wrapper" class="content">
-      <nav class="navbar navbar-dark bg-inverse navbar-fixed-top">
-        <button id="menu-toggle" class="navbar-toggler" type="button">
-          &#9776;
-        </button>
-      </nav>
-      <section class="main-content top-buffer page fade bg-faded" ng-view></section>
-      <footer>
-        <nav class="navbar navbar-light bg-info navbar-fixed-bottom">
-          <div class="container-fluid">This is footer</div>
+      <!-- /#sidebar-wrapper -->
+      <!-- Page Content -->
+      <div id="page-content-wrapper" class="content">
+        <nav class="navbar navbar-dark bg-inverse navbar-fixed-top">
+          <button id="menu-toggle" class="navbar-toggler" type="button"> &#9776; </button>
         </nav>
-      </footer>
+        <section class="main-content top-buffer page fade bg-faded" ng-view=""></section>
+        <footer>
+          <nav class="navbar navbar-light bg-info navbar-fixed-bottom">
+            <div class="container-fluid">This is footer</div>
+          </nav>
+        </footer>
+      </div>
+      <!-- /#page-content-wrapper -->
     </div>
-    <!-- /#page-content-wrapper -->
-  </div>
-
-  <!-- build:js js/lib.js -->
-  <!-- bower:js -->
-  <!-- endbower -->
-  <!-- endbuild -->
-
-  <!-- build:js js/app.js -->
-  <!-- inject:js -->
-  <!-- endinject -->
-  <!-- endbuild -->
-
-  <script async src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
-  <script type="text/javascript">
-    WebFontConfig = {
-      google: { families: [ 'Roboto::latin' ] }
-    };
-    (function() {
-      var wf = document.createElement('script');
-      wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-        '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-      wf.type = 'text/javascript';
-      wf.async = 'true';
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(wf, s);
-    })();
-  </script>
-</body>
+    <!-- build:js js/lib.js -->
+    <!-- bower:js -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:js js/app.js -->
+    <!-- inject:js -->
+    <!-- endinject -->
+    <!-- endbuild -->
+    <script defer async src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
 
 </html>
