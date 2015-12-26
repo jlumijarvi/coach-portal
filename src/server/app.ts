@@ -21,9 +21,9 @@ var port = process.env.PORT || 4000;
 var environment = process.env.NODE_ENV || 'dev';
 
 var root = __dirname + '/';
-var publicDir = environment === 'production' ? 'public/' : 'public-dev/';
+var publicDir = (environment === 'production' ? './build/' : './src/client/');
 
-app.use(favicon(root + publicDir + 'favicons/favicon.ico'));
+app.use(favicon(publicDir + 'favicons/favicon.ico'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(compress());
@@ -44,15 +44,17 @@ console.log('NODE_ENV=' + environment);
 switch (environment) {
     case 'production':
         console.log('** PRODUCTION **');
-        app.use(express.static('./build/public'));
+        app.use(express.static(publicDir));
         // Any deep link calls should return index.html
-        app.use('/*', express.static('./build/public/index.html'));
+        app.use('/*', express.static(publicDir + 'index.html'));
         break;
+    case 'dev':
     default:
         console.log('** DEVELOPMENT **');
-        app.use(express.static('./build/public-dev'));
+        app.use(express.static(publicDir));
+        app.use(express.static('./'));
         // Any deep link calls should return index.html
-        app.use('/*', express.static('./build/public-dev/index.html'));
+        app.use('/*', express.static(publicDir + 'index.html'));
         break;
 }
 

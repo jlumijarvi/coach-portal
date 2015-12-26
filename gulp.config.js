@@ -1,12 +1,41 @@
 var root = __dirname + '/';
 var build = root + 'build/';
+var client = root + 'src/client/';
+var server = root + 'src/server/';
 
 exports.common = function () {
     var config = {
         root: root,
         build: build,
+        client: client,
+        server: server,
         src: root + 'src/',
-        ts: '**/*.ts'
+        ts: '**/*.ts',
+        js: '**/*.js',
+        sass: 'styles/**/*.scss',
+        styles: 'styles/**/*.css',
+        scripts: 'app/**/*.js',
+        bower: {
+            json: function () { return require(root + 'bower.json'); },
+            directory: root + 'bower_components/',
+            jsonPath: root + 'bower.json'
+        },
+        index: client + 'index.html',
+        faviconOptions: {
+            background: '#fff',
+            path: 'favicons/',
+            display: "standalone",
+            orientation: "portrait",
+            version: '1.0',
+            logging: false,
+            online: false,
+            html: client + '_index.html',
+            replace: true
+        },
+        logo: client + 'images/logo.png',
+        templates: client + 'app/**/*.html',
+        temp: build + '.tmp/',
+        defaultPort: 4000
     };
 
     return config;
@@ -29,7 +58,7 @@ exports.server = function () {
 };
 
 exports.client = function () {
-    
+
     var clientBuild = build + 'public-dev/';
 
     var config = {

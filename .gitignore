@@ -6,3 +6,6 @@ typings
 # Build cache
 build
 release
+favicons
+src/**/*.js
+src/**/*.css

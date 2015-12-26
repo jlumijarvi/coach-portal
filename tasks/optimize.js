@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var config = require('../../gulp.config').client();
+var config = require('../../gulp.config');
 var utils = require('../utils')();
 var vinylPaths = require('vinyl-paths');
 var $ = utils.plugins;
@@ -7,13 +7,13 @@ var $ = utils.plugins;
 gulp.task('release', ['templatecache'], function () {
     return gulp
         .src([
-            config.build + '**/*.*',
+            config.client + '**/*.*',
             '!' + config.build + 'app/**/*.*',
             '!' + config.build + 'styles/**/*.css',
             '!' + config.build + 'bower_components/**/*.*'
         ])
         .pipe($.if('images/**/*.*', $.imagemin({ optimizationLevel: 4 })))
-        .pipe(gulp.dest(config.optimized));
+        .pipe(gulp.dest(config.build));
 });
 
 gulp.task('optimize', ['release'], function () {
