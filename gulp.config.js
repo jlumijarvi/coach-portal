@@ -16,9 +16,9 @@ exports.common = function () {
         styles: 'styles/**/*.css',
         scripts: 'app/**/*.js',
         bower: {
-            json: function () { return require(root + 'bower.json'); },
-            directory: root + 'bower_components/',
-            jsonPath: root + 'bower.json'
+            json: function () { return require('./bower.json'); },
+            directory: './bower_components/',
+            jsonPath: './bower.json'
         },
         index: client + 'index.html',
         faviconOptions: {
@@ -29,11 +29,12 @@ exports.common = function () {
             version: '1.0',
             logging: false,
             online: false,
-            html: client + '_index.html',
+            html: client + 'index.html',
             replace: true
         },
         logo: client + 'images/logo.png',
         templates: client + 'app/**/*.html',
+        fonts: root + 'bower_components/font-awesome/fonts/**/*.*',
         temp: build + '.tmp/',
         defaultPort: 4000
     };

@@ -57,6 +57,8 @@ gulp.task('clean-styles', function () {
 gulp.task('favicons', ['compile-favicons'], function () {
     return gulp
         .src(config.index)
+        .pipe($.replace('favicons\\', 'favicons/'))
+        .pipe($.replace('\\favicons', '/favicons'))
         .pipe($.prettify({ indent_size: 2 }))
         .pipe(gulp.dest(utils.base));
 });
@@ -84,23 +86,17 @@ gulp.task('inject', ['scripts', 'styles'], function () {
     return inject();
 });
 
-gulp.task('build', ['favicons'], function() {
-    gulp.start('inject');
-});
+gulp.task('build', ['favicons', 'inject']);
 
-gulp.clean('clean', ['clean-scripts', 'clean-styles', 'clean-favicons'], function() {
+gulp.task('clean', ['clean-scripts', 'clean-styles', 'clean-favicons'], function () {
     return utils.clean(config.build);
 });
 
 gulp.task('watch', function () {
-    watch(config.src + config.ts, ['tsconfig', 'inject']);
-    watch(config.src + config.sass, ['inject']);
+    watch(config.client + config.ts, ['tsconfig', 'inject']);
+    watch(config.client + config.sass, ['inject']);
     watch(config.bower.jsonPath, ['bower', 'inject']);
-    watch(config.src + config.logo, ['favicons']);
-});
-
-gulp.task('build-watch', ['build'], function () {
-    gulp.start('watch');
+    watch(config.logo, ['favicons']);
 });
 
 gulp.task('browser-sync', function () {
@@ -118,21 +114,30 @@ gulp.task('browser-sync', function () {
     browserSync.init(options);
 });
 
-gulp.task('start', ['browser-sync', 'watch']);
+gulp.task('start-client', ['browser-sync', 'watch']);
 
-gulp.task('start-server', function () {
+gulp.task('start', ['watch'], function () {
     serve(true);
 });
 
+gulp.task('start-production', function () {
+    serve(false);
+});
+
+gulp.task('build-start', ['build'], function () {
+    return gulp.start('start');
+});
 
 // Build optimization tasks
-gulp.task('release', ['templatecache'], function () {
+gulp.task('release', ['build', 'templatecache', 'release-fonts'], function () {
     return gulp
         .src([
             config.client + '**/*.*',
+            '!' + config.client + '**/*.html',
+            '!' + config.client + '**/*.js',
             '!' + config.client + '**/*.ts',
-            '!' + config.client + '**/*.scss',
-            '!' + config.client + '_index.html'
+            '!' + config.client + '**/*.css',
+            '!' + config.client + '**/*.scss'
         ])
         .pipe($.if('images/**/*.*', $.imagemin({ optimizationLevel: 4 })))
         .pipe(gulp.dest(config.build));
@@ -140,7 +145,7 @@ gulp.task('release', ['templatecache'], function () {
 
 gulp.task('templatecache', ['clean-templatecache'], function () {
     return gulp
-        .src(config.client + config.templates)
+        .src(config.templates)
         .pipe($.minifyHtml())
         .pipe($.angularTemplatecache({ root: '/app/', module: 'app' })) // templates.js
         .pipe(gulp.dest(config.temp));
@@ -150,23 +155,40 @@ gulp.task('clean-templatecache', function () {
     return utils.clean(config.temp);
 });
 
+gulp.task('release-fonts', ['clean-release-fonts'], function () {
+    return gulp
+        .src(config.fonts)
+        .pipe(gulp.dest(config.build + 'fonts/'));
+});
+gulp.task('clean-release-fonts', function () {
+    return utils.clean(config.build + 'fonts/');
+});
+
 gulp.task('optimize', ['release'], function () {
 
     // we need to inject the template cache
     var sources = [
+        config.client + config.styles,
         config.client + 'app/app.js',
         config.client + config.scripts,
-        '../.tmp/templates.js'
+        '../../build/.tmp/templates.js'
     ];
-    var options = {
+    var srcOptions = {
         read: false,
-        addRootSlash: false
+        cwd: config.client
+    };
+
+    var wiredep = require('wiredep').stream;
+    var wiredepOptions = {
+        bowerJson: config.bower.json(),
+        directory: config.bower.directory
     };
 
     return gulp
         .src(config.index)
         .pipe($.plumber())
-        .pipe($.inject(gulp.src(sources, { cwd: config.client }), options))
+        .pipe($.inject(gulp.src(sources, srcOptions), { addRootSlash: false }))
+        .pipe(wiredep(wiredepOptions))
         .pipe($.useref())
         .pipe($.if('app/**/*.js', $.ngAnnotate()))
         .pipe($.if('**/*.js', $.uglify()))
@@ -178,8 +200,9 @@ gulp.task('optimize', ['release'], function () {
         .pipe(gulp.dest(config.build));
 });
 
-gulp.task('clean-optimize', ['clean-templatecache'], function () {
-    return utils.clean(config.build);
+gulp.task('clean-optimize', function () {
+    utils.cleanSync(config.build);
+    gulp.start('optimize');
 });
 
 gulp.task('help', $.taskListing);
