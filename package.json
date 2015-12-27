@@ -6,7 +6,7 @@
   "scripts": {
     "init": "npm install",
     "install": "bower install && tsd install -r -o --save-dev && gulp tsdhack",
-    "postinstall": "gulp clean-build",
+    "postinstall": "gulp build && gulp clean-templatecache",
     "start": "node ./build/app.js"
   },
   "author": "",
