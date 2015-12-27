@@ -9,3 +9,4 @@ release
 favicons
 src/**/*.js
 src/**/*.css
+secret.ts

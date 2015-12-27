@@ -8,6 +8,7 @@ import * as _ from 'underscore';
 import * as userModel from '../models/user';
 import * as roleModel from '../models/role';
 import * as taskCounter from '../utils/taskCounter';
+import * as secret from './secret';
 
 var User = userModel.User;
 var Role = roleModel.Role;
@@ -52,9 +53,10 @@ function createAdmin(cb) {
         if (err) {
             cb(err);
         }
+        console.log(err);
         var user = res || new User();
         user.username = 'admin';
-        user.password = '#,K:s#n$j$s6Rm';
+        user.password = secret.adminPassword;
         user.email = 'john.doe@foo.com';
         user.firstName = 'John';
         user.lastName = 'Doe';

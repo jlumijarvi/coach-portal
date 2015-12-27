@@ -149,7 +149,9 @@ gulp.task('clean', ['clean-scripts', 'clean-styles', 'clean-favicons', 'clean-bu
 });
 
 gulp.task('watch', function () {
-    watch(config.server + config.ts, ['scripts-server']);
+    watch(config.server + config.ts, function() {
+        typescript(config.server);
+    });
     watch(config.client + config.ts, ['inject']);
     watch(config.client + config.sass, ['inject']);
     watch(config.bower.jsonPath, ['bower', 'inject']);
@@ -172,11 +174,12 @@ gulp.task('browser-sync', function () {
 
 gulp.task('serve-client', ['browser-sync', 'watch']);
 
-gulp.task('serve-dev', ['watch'], function () {
+gulp.task('serve-dev', ['prebuild'], function () {
+    gulp.start('watch');
     return serve(true);
 });
 
-gulp.task('serve-production', function () {
+gulp.task('serve-production', ['build'], function () {
     return serve(false);
 });
 
@@ -273,11 +276,16 @@ gulp.task('optimize', ['prebuild', 'templatecache'], function () {
 
 function watch(files, task) {
     return $.watch(files, $.batch(function (events, done) {
-        console.log(events);
-        gulp.start(task, done).on('error', function (err) {
-            utils.log(err);
+        if (typeof task === 'function') {
+            task();
             this.emit('end');
-        });
+        }
+        else {
+            gulp.start(task, done).on('error', function (err) {
+                utils.log(err);
+                this.emit('end');
+            });
+        }
     }));
 }
 
@@ -295,7 +303,7 @@ function typescript(dir, sourceMaps) {
 function serve(isDev) {
     var opts = {
         script: config.server + 'app.js',
-        delayTime: 1,
+        delayTime: 3000,
         env: {
             'PORT': config.port(),
             'NODE_ENV': isDev ? 'dev' : 'production'
