@@ -1,4 +1,4 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/tsd.d.ts" />
 
 'use strict';
 
@@ -36,7 +36,7 @@ export = (app: express.Express) => {
         next();
     });
     router.use((err: any, req: express.Request, res: express.Response, next: Function) => {
-        console.log(err);
+        console.log('error: ' + err);
         if (err.status === 401) {
             return res.sendStatus(401);
         }

@@ -27,12 +27,12 @@ gulp.task('clean-scripts', function () {
     return utils.clean(config.src + config.js);
 });
 
-gulp.task('scripts-server', function() {
+gulp.task('scripts-server', function () {
     utils.cleanSync(config.server + config.js);
     return typescript(config.server);
 });
 
-gulp.task('scripts-client', function() {
+gulp.task('scripts-client', function () {
     utils.cleanSync(config.client + config.js);
     return typescript(config.client);
 });
@@ -51,7 +51,7 @@ gulp.task('tsconfig', function () {
  */
 gulp.task('styles', ['format-sass', 'clean-styles'], function () {
     return gulp
-        .src(config.client + config.sass)
+        .src(config.sass)
         .pipe($.plumber())
         .pipe($.sass.sync())
         .pipe($.autoprefixer())
@@ -62,7 +62,7 @@ gulp.task('styles', ['format-sass', 'clean-styles'], function () {
  * Clean compiled css.
  */
 gulp.task('clean-styles', function () {
-    return utils.clean(config.client + config.styles);
+    return utils.clean(config.styles);
 });
 
 /**
@@ -70,7 +70,7 @@ gulp.task('clean-styles', function () {
  */
 gulp.task('format-sass', function () {
     return gulp
-        .src(config.client + config.sass)
+        .src(config.sass)
         .pipe($.plumber())
         .pipe($.shell([
             'sass-convert <%= file.path %> <%= file.path %>'
@@ -119,9 +119,9 @@ gulp.task('tsdhack', function () {
 
 gulp.task('inject', ['scripts-client', 'styles'], function () {
     var sources = [
-        config.client + config.styles,
+        config.styles,
         config.client + 'app/app.js',
-        config.client + config.scripts
+        config.scripts
     ];
     var srcOptions = {
         read: false,
@@ -181,22 +181,33 @@ gulp.task('serve-production', function () {
 });
 
 /**
- * Build everything and 
+ * Build everything. Optimize client side code and put into build folder. 
  */
-gulp.task('build', ['clean-build'], function () {
-    gulp.start('optimize', 'fonts');
+gulp.task('build', ['clean-build'], function (done) {
+    var counter = 2;
+    return gulp.start('optimize', 'fonts').on('task_stop', function (ev) {
+        if (!(ev.task === 'optimize' || ev.task === 'fonts')) {
+            return;
+        }
+        if (--counter === 0) {
+            gulp
+                .src([
+                    config.client + '**/*.*',
+                    '!' + config.client + '**/*.html',
+                    '!' + config.client + '**/*.js',
+                    '!' + config.client + '**/*.ts',
+                    '!' + config.client + '**/*.css',
+                    '!' + config.client + '**/*.scss'
+                ])
+                .pipe($.if('images/**/*.*', $.imagemin({ optimizationLevel: 4 })))
+                .pipe(gulp.dest(config.build));
 
-    return gulp
-        .src([
-            config.client + '**/*.*',
-            '!' + config.client + '**/*.html',
-            '!' + config.client + '**/*.js',
-            '!' + config.client + '**/*.ts',
-            '!' + config.client + '**/*.css',
-            '!' + config.client + '**/*.scss'
-        ])
-        .pipe($.if('images/**/*.*', $.imagemin({ optimizationLevel: 4 })))
-        .pipe(gulp.dest(config.build));
+            done();
+        }
+        if (ev.task === 'optimize') {
+            utils.clean(config.temp);
+        }
+    });
 });
 
 gulp.task('clean-build', function () {
@@ -228,9 +239,9 @@ gulp.task('optimize', ['prebuild', 'templatecache'], function () {
 
     // we need to inject the template cache
     var sources = [
-        config.client + config.styles,
+        config.styles,
         config.client + 'app/app.js',
-        config.client + config.scripts,
+        config.scripts,
         '../../build/.tmp/templates.js'
     ];
     var srcOptions = {
@@ -271,7 +282,7 @@ function watch(files, task) {
 }
 
 function typescript(dir, sourceMaps) {
-
+    utils.log('Transpile files in ' + dir);
     return gulp
         .src(dir + config.ts)
         .pipe($.plumber())

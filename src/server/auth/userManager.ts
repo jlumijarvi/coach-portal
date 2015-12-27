@@ -1,4 +1,4 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/tsd.d.ts" />
 
 'use strict';
 
@@ -61,7 +61,7 @@ export function register(username: string, password: string, email:string, cb: a
     user.email = email;
 
     User.findOne({ username: user.username }, (err, res) => {
-        console.log(res);
+        console.log('register: ' + res);
         if (err) {
             console.log(err);
             return cb(400, null);

@@ -1,13 +1,13 @@
 {
-  "name": "coach-portal-server",
+  "name": "coach-portal",
   "version": "0.0.1",
   "description": "",
-  "main": "./build/app.js",
+  "main": "./src/server/app.js",
   "scripts": {
     "init": "npm install",
     "install": "bower install && tsd install -r -o --save-dev && gulp tsdhack",
-    "postinstall": "gulp build && gulp clean-templatecache",
-    "start": "node ./build/app.js"
+    "postinstall": "gulp build",
+    "start": "node ./src/server/app.js"
   },
   "author": "",
   "license": "ISC",

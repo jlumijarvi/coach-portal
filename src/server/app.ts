@@ -10,10 +10,10 @@ import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as ejs from 'ejs';
 import * as _ from 'underscore';
-import * as errorHandler from './app/utils/errorHandler';
-import * as four0four from './app/utils/404';
-import * as secret from './app/auth/secret';
-import * as db from './app/db';
+import * as errorHandler from './utils/errorHandler';
+import * as four0four from './utils/404';
+import * as secret from './auth/secret';
+import * as db from './db';
 
 // initialize app
 var app = express();
@@ -32,10 +32,10 @@ app.use(errorHandler.init);
 app.use(cookieParser(secret.secretToken));
 
 // register api routes
-require('./app/routes/api')(app);
+require('./routes/api')(app);
 
 // register MVC routes
-require('./app/routes')(app);
+require('./routes')(app);
 
 console.log('About to crank up node');
 console.log('PORT=' + port);

@@ -1,4 +1,4 @@
-/// <reference path="../../../../../typings/tsd.d.ts" />
+/// <reference path="../../../../typings/tsd.d.ts" />
 
 'use strict';
 
@@ -96,7 +96,7 @@ export = (api?: string): express.Router => {
     }
 
     function getCustomers(req: express.Request, res: express.Response) {
-        console.log(req.user);
+        console.log('getCustomers: ' + req.user);
         var msg = 'customers not found. ';
         try {
             var json = jsonfileservice.getJsonFromFile(data + 'customers.json');
